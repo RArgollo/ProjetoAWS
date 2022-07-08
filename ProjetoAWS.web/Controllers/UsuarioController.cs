@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjetoAWS.lib;
+using ProjetoAWS.lib.Models;
+using ProjetoAWS.web.DTos;
 
 namespace ProjetoAWS.web.Controllers
 {
@@ -7,7 +8,7 @@ namespace ProjetoAWS.web.Controllers
     [Route("[controller]")]
     public class UsuarioController : ControllerBase
     {
-        private static List<Usuario> Usuarios {get; set; } = new List<Usuario>();
+        private static List<Usuario> Usuarios { get; set; } = new List<Usuario>();
 
         [HttpGet]
         public async Task<IActionResult> GetUsuarios()
@@ -16,8 +17,9 @@ namespace ProjetoAWS.web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUsuario(Usuario usuario)
+        public async Task<IActionResult> AddUsuario(UsuarioDTO usuarioDTO)
         {
+            var usuario = new Usuario(usuarioDTO.Id, usuarioDTO.Email, usuarioDTO.Cpf, usuarioDTO.DataNascimento, usuarioDTO.Nome, usuarioDTO.Senha, usuarioDTO.DataCriacao);
             Usuarios.Add(usuario);
             return Ok();
         }

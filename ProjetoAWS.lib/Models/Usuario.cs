@@ -1,4 +1,4 @@
-namespace ProjetoAWS.lib
+namespace ProjetoAWS.lib.Models
 {
     public class Usuario
     {
@@ -57,7 +57,7 @@ namespace ProjetoAWS.lib
 
         public void SetSenha(string senha)
         {
-            if (senha.Length > 8)
+            if (senha.Length >= 8)
                 Senha = senha;
         }
 
