@@ -10,6 +10,7 @@
     <PackageReference Include="AWSSDK.Core" Version="3.7.12.5" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
     <PackageReference Include="awssdk.s3" Version="3.7.9.21" />
+    <PackageReference Include="EFCore.NamingConventions" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
