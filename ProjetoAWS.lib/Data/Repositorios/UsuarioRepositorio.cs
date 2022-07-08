@@ -4,7 +4,7 @@ using ProjetoAWS.lib.Data.Interfaces;
 
 namespace ProjetoAWS.lib.Data.Repositorios
 {
-    public class UsuarioRepositorio : RepositorioBase<Usuario>, IRepositorioBase<Usuario>
+    public class UsuarioRepositorio : RepositorioBase<Usuario>, IUsuarioRepositorio
     {
         private readonly AWSContext _context;
 
