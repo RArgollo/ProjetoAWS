@@ -3,6 +3,7 @@ using Amazon.S3;
 using Microsoft.EntityFrameworkCore;
 using ProjetoAWS.lib.Data;
 using ProjetoAWS.lib.Data.Interfaces;
+using ProjetoAWS.lib.Data.Repositorios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAWSService<IAmazonS3>();
-builder.Services.AddScoped<IUsuarioRepositorio>();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddDbContext<AWSContext>(conn =>
 conn.UseNpgsql(builder.Configuration.GetConnectionString("AWSDB"))
 .UseSnakeCaseNamingConvention());
