@@ -1,0 +1,12 @@
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\bin\Debug\net6.0\ProjetoAWS.lib.deps.json
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\bin\Debug\net6.0\ProjetoAWS.lib.dll
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\bin\Debug\net6.0\ProjetoAWS.lib.pdb
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\ProjetoAWS.lib.csproj.AssemblyReference.cache
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\ProjetoAWS.lib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\ProjetoAWS.lib.AssemblyInfoInputs.cache
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\ProjetoAWS.lib.AssemblyInfo.cs
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\ProjetoAWS.lib.csproj.CoreCompileInputs.cache
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\ProjetoAWS.lib.dll
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\refint\ProjetoAWS.lib.dll
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\ProjetoAWS.lib.pdb
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.lib\obj\Debug\net6.0\ref\ProjetoAWS.lib.dll
