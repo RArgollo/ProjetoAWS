@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoAWS.lib.Data.Interfaces;
-using ProjetoAWS.lib.Data.Repositorios;
 using ProjetoAWS.lib.Models;
 using ProjetoAWS.web.DTos;
 
@@ -11,11 +10,15 @@ namespace ProjetoAWS.web.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioRepositorio _repositorio;
+        public UsuarioController(IUsuarioRepositorio repositorio)
+        {
+            _repositorio = repositorio;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetUsuarios()
         {
-            var resposta = _repositorio.GetTodosAsync();
+            var resposta = await _repositorio.GetTodosAsync();
             return Ok(resposta);
         }
 
@@ -30,14 +33,14 @@ namespace ProjetoAWS.web.Controllers
         [HttpPut]
         public async Task<IActionResult> AtualizarSenha(int id, string senha)
         {
-            var resposta = _repositorio.AtualizarSenha(id, senha);
+            await _repositorio.AtualizarSenha(id, senha);
             return Ok();
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeletarUsuario(int id)
         {
-            var resposta = _repositorio.DeletarAsync(id);
+            await _repositorio.DeletarAsync(id);
             return Ok();
         }
     }

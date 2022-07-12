@@ -21,15 +21,15 @@ namespace ProjetoAWS.lib.Data.Repositorios
 
         public async Task AddAsync(T item)
         {
-            _dbset.AddAsync(item);
-            _context.SaveChangesAsync();        
+            await _dbset.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeletarAsync(int id)
         {
             var item = await _dbset.FindAsync(id);
             _dbset.Remove(item);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

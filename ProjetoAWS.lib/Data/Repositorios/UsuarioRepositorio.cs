@@ -16,7 +16,7 @@ namespace ProjetoAWS.lib.Data.Repositorios
         {
             var usuario = await _context.Usuarios.FindAsync(id);
             usuario.SetSenha(senha);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }
