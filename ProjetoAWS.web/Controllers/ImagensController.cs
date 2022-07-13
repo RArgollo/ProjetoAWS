@@ -26,7 +26,7 @@ namespace ProjetoAWS.web.Controllers
 
                 var request = new PutObjectRequest();
                 request.Key = imagem.FileName;
-                request.BucketName = "imagens-aula";
+                request.BucketName = "imagens-teste-dodev";
                 request.InputStream = streamDaImagem;
 
                 var resposta = await _amazonS3.PutObjectAsync(request);
