@@ -1,3 +1,4 @@
+using Amazon.Rekognition;
 using Amazon.Runtime;
 using Amazon.S3;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +14,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAWSService<IAmazonS3>();
+builder.Services.AddScoped<AmazonRekognitionClient>();
+
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+
 builder.Services.AddDbContext<AWSContext>(conn =>
 conn.UseNpgsql(builder.Configuration.GetConnectionString("AWSDB"))
 .UseSnakeCaseNamingConvention());
