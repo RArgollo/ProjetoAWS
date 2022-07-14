@@ -14,7 +14,7 @@ namespace ProjetoAWS.web.Controllers
         {
             _rekognitionClient = rekognitionClient;
         }
-        [HttpGet]
+        [HttpGet("AnalisarRosto")]
         public async Task<IActionResult> AnalisarRosto(string nomeArquivo)
         {
             var entrada = new DetectFacesRequest();
@@ -39,6 +39,37 @@ namespace ProjetoAWS.web.Controllers
             else
             {
                 return BadRequest();
+            }
+
+        }
+
+        [HttpPost("CompararRosto")]
+        public async Task<IActionResult> CompararRosto(string nomeArquivoS3, IFormFile fotoLogin)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var request = new CompareFacesRequest();
+
+                var requestSource = new Image()
+                {
+                    S3Object = new S3Object()
+                    {
+                        Bucket = "imagens-teste-dodev",
+                        Name = nomeArquivoS3
+                    }
+                };
+
+                await fotoLogin.CopyToAsync(memoryStream);
+                var requestTarget = new Image()
+                {
+                    Bytes = memoryStream
+                };
+
+                request.SourceImage = requestSource;
+                request.TargetImage = requestTarget;
+
+                var resposta = await _rekognitionClient.CompareFacesAsync(request);
+                return Ok(resposta);
             }
 
         }
