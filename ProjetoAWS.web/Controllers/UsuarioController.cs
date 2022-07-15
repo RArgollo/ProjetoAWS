@@ -34,7 +34,8 @@ namespace ProjetoAWS.web.Controllers
         [HttpPost("Cadastro")]
         public async Task<IActionResult> Cadastro(int id, string email, string cpf, string dataNascimento, string nome, string senha, string dataCriacao)
         {
-            var usuarioDTO = new UsuarioDTO(){
+            var usuarioDTO = new UsuarioDTO()
+            {
                 Id = id,
                 Email = email,
                 Cpf = cpf,
@@ -42,7 +43,7 @@ namespace ProjetoAWS.web.Controllers
                 Nome = nome,
                 Senha = senha,
                 DataCriacao = dataCriacao
-            }; 
+            };
             var usuario = new Usuario(usuarioDTO.Id, usuarioDTO.Email, usuarioDTO.Cpf, usuarioDTO.DataNascimento, usuarioDTO.Nome, usuarioDTO.Senha, usuarioDTO.DataCriacao);
             await _repositorio.AddAsync(usuario);
             return Ok();
@@ -65,8 +66,13 @@ namespace ProjetoAWS.web.Controllers
         [HttpPost("CadastrarImagem")]
         public async Task<IActionResult> CadastrarImagem(int id, IFormFile imagem)
         {
-            var fotoUsuario = await AddImagem(imagem);
-            await AnalisarRosto(imagem.FileName);
+            await AddImagem(imagem);
+            var resposta = await AnalisarRosto(imagem.FileName);
+            if (resposta.FaceDetails.Count != 1 || resposta.FaceDetails.First().Eyeglasses.Value == true)
+            {
+                await _amazonS3.DeleteObjectAsync("imagens-teste-dodev", imagem.FileName);
+                return BadRequest("Imagem inválida");
+            }
             await _repositorio.AtualizarUrlFotoCadastro(id, imagem.FileName);
             return Ok("Imagem cadastrada");
         }
@@ -84,6 +90,28 @@ namespace ProjetoAWS.web.Controllers
             {
                 return BadRequest("Email ou senha inválidos");
             }
+        }
+
+        [HttpPost("LoginImagem")]
+        public async Task<IActionResult> LoginImagem(int id, IFormFile fotoLogin)
+        {
+            var usuario = await _repositorio.GetPorId(id);
+            var comparacao = await CompararRosto(usuario.UrlImagemCadastro, fotoLogin);
+            if (comparacao.FaceMatches.Count == 1)
+            {
+                return Ok("Foto de login Válida");
+            }
+            else
+            {
+                return BadRequest("Foto de login inválida");
+            }
+        }
+
+        [HttpDelete("DeletarImagem")]
+        public async Task<IActionResult> DeletarImagem(string nomeArquivo)
+        {
+            await _amazonS3.DeleteObjectAsync("imagens-teste-dodev", nomeArquivo);
+            return Ok("Imagem deletada");
         }
 
         private async Task<IActionResult> AddImagem(IFormFile imagem)
@@ -104,7 +132,7 @@ namespace ProjetoAWS.web.Controllers
             }
         }
 
-        private async Task<IActionResult> AnalisarRosto(string nomeArquivo)
+        private async Task<DetectFacesResponse> AnalisarRosto(string nomeArquivo)
         {
             var entrada = new DetectFacesRequest();
             var imagem = new Image();
@@ -120,24 +148,37 @@ namespace ProjetoAWS.web.Controllers
             entrada.Attributes = new List<string>() { "ALL" };
 
             var resposta = await _rekognitionClient.DetectFacesAsync(entrada);
-
-            if (resposta.FaceDetails.Count == 1 && resposta.FaceDetails.First().Eyeglasses.Value == false)
-            {
-                return Ok(resposta);
-            }
-            else
-            {
-                await _amazonS3.DeleteObjectAsync("imagens-teste-dodev", nomeArquivo);
-                return BadRequest("Imagem inválida");
-            }
-
+            return resposta;
         }
 
-        [HttpDelete("DeletarImagem")]
-        public async Task<IActionResult> DeletarImagem(string nomeArquivo)
+        private async Task<CompareFacesResponse> CompararRosto(string nomeArquivoS3, IFormFile fotoLogin)
         {
-            await _amazonS3.DeleteObjectAsync("imagens-teste-dodev", nomeArquivo);
-            return Ok("Imagem deletada");
+            using (var memoryStream = new MemoryStream())
+            {
+                var request = new CompareFacesRequest();
+
+                var requestSource = new Image()
+                {
+                    S3Object = new Amazon.Rekognition.Model.S3Object()
+                    {
+                        Bucket = "imagens-teste-dodev",
+                        Name = nomeArquivoS3
+                    }
+                };
+
+                await fotoLogin.CopyToAsync(memoryStream);
+                var requestTarget = new Image()
+                {
+                    Bytes = memoryStream
+                };
+
+                request.SourceImage = requestSource;
+                request.TargetImage = requestTarget;
+
+                var response = await _rekognitionClient.CompareFacesAsync(request);
+                return response;
+            }
+
         }
     }
 }
