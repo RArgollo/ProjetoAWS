@@ -62,6 +62,21 @@ namespace ProjetoAWS.web.Controllers
             return Ok("Imagem cadastrada");
         }
 
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(string email, string senha)
+        {
+            var usuarios = await _repositorio.GetTodosAsync();
+            var usuarioAVerificar = usuarios.First(x => x.Email == email);
+            if (usuarioAVerificar.Senha == senha)
+            {
+                return Ok(usuarioAVerificar.Id);
+            }
+            else
+            {
+                return BadRequest("Email ou senha inválidos");
+            }
+        }
+
         private async Task<IActionResult> AddImagem(IFormFile imagem)
         {
             if (!_extensoesImagem.Contains(imagem.ContentType))
