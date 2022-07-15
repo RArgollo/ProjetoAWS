@@ -32,18 +32,8 @@ namespace ProjetoAWS.web.Controllers
         }
 
         [HttpPost("Cadastro")]
-        public async Task<IActionResult> Cadastro(int id, string email, string cpf, string dataNascimento, string nome, string senha, string dataCriacao)
+        public async Task<IActionResult> Cadastro(UsuarioDTO usuarioDTO)
         {
-            var usuarioDTO = new UsuarioDTO()
-            {
-                Id = id,
-                Email = email,
-                Cpf = cpf,
-                DataNascimento = dataNascimento,
-                Nome = nome,
-                Senha = senha,
-                DataCriacao = dataCriacao
-            };
             var usuario = new Usuario(usuarioDTO.Id, usuarioDTO.Email, usuarioDTO.Cpf, usuarioDTO.DataNascimento, usuarioDTO.Nome, usuarioDTO.Senha, usuarioDTO.DataCriacao);
             await _repositorio.AddAsync(usuario);
             return Ok();
