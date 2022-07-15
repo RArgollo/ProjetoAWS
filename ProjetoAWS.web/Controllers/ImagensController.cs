@@ -32,7 +32,6 @@ namespace ProjetoAWS.web.Controllers
                 var resposta = await _amazonS3.PutObjectAsync(request);
                 return Ok(resposta);
             }
-            return Ok();
         }
 
         [HttpPost("bucket")]
