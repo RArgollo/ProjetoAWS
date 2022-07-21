@@ -19,6 +19,12 @@ namespace ProjetoAWS.lib.Data.Repositorios
             return resposta;
         }
 
+        public async Task<T> GetPorId(int id)
+        {
+            var resposta = await _dbset.FindAsync(id);
+            return resposta;
+        }
+
         public async Task AddAsync(T item)
         {
             await _dbset.AddAsync(item);

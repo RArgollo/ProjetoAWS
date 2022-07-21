@@ -18,5 +18,12 @@ namespace ProjetoAWS.lib.Data.Repositorios
             usuario.SetSenha(senha);
             await _context.SaveChangesAsync();
         }
+
+        public async Task AtualizarUrlFotoCadastro(int id, string urlImagemCadastro)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            usuario.SetUrlImagemCadastro(urlImagemCadastro);
+            await _context.SaveChangesAsync();
+        }
     }
 }
