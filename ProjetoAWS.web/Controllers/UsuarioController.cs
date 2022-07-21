@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using ProjetoAWS.Application;
 using ProjetoAWS.lib.Data.Interfaces;
 using ProjetoAWS.lib.Models;
-using ProjetoAWS.web.DTos;
+
 
 namespace ProjetoAWS.web.Controllers
 {
