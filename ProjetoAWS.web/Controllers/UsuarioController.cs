@@ -1,11 +1,6 @@
-using Amazon.Rekognition;
-using Amazon.Rekognition.Model;
-using Amazon.S3;
-using Amazon.S3.Model;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoAWS.Application;
-using ProjetoAWS.lib.Data.Interfaces;
-using ProjetoAWS.lib.Models;
+using ProjetoAWS.Application.Services;
 
 namespace ProjetoAWS.web.Controllers
 {
@@ -13,162 +8,130 @@ namespace ProjetoAWS.web.Controllers
     [Route("[controller]")]
     public class UsuarioController : ControllerBase
     {
-        private readonly IUsuarioRepositorio _repositorio;
-        private readonly AmazonRekognitionClient _rekognitionClient;
-        private readonly IAmazonS3 _amazonS3;
-        private static readonly List<string> _extensoesImagem = new List<string>() { "image/jpeg", "image/png" };
-        public UsuarioController(IUsuarioRepositorio repositorio, AmazonRekognitionClient client, IAmazonS3 amazonS3)
+        private readonly IUsuarioApplication _application;
+        public UsuarioController(IUsuarioApplication application)
         {
-            _repositorio = repositorio;
-            _rekognitionClient = client;
-            _amazonS3 = amazonS3;
+            _application = application;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsuarios()
+        [HttpPost("CadastrarUsuario")]
+        public async Task<IActionResult> CadastrarUsuario(UsuarioDTO usuarioDTO)
         {
-            var resposta = await _repositorio.GetTodosAsync();
-            return Ok(resposta);
-        }
-
-        [HttpPost("Cadastro")]
-        public async Task<IActionResult> Cadastro(UsuarioDTO usuarioDTO)
-        {
-            var usuario = new Usuario(usuarioDTO.Id, usuarioDTO.Email, usuarioDTO.Cpf, usuarioDTO.DataNascimento, usuarioDTO.Nome, usuarioDTO.Senha, usuarioDTO.DataCriacao);
-            await _repositorio.AddAsync(usuario);
-            return Ok();
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> AtualizarSenha(int id, string senha)
-        {
-            await _repositorio.AtualizarSenha(id, senha);
-            return Ok();
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> DeletarUsuario(int id)
-        {
-            await _repositorio.DeletarAsync(id);
-            return Ok();
+            try
+            {
+                await _application.CadastrarUsuario(usuarioDTO);
+                return Ok("Usuario cadastrado");
+            }
+            catch
+            {
+                var ex = new Exception("Usuario inválido");
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("CadastrarImagem")]
         public async Task<IActionResult> CadastrarImagem(int id, IFormFile imagem)
         {
-            await AddImagem(imagem);
-            var resposta = await AnalisarRosto(imagem.FileName);
-            if (resposta.FaceDetails.Count != 1 || resposta.FaceDetails.First().Eyeglasses.Value == true)
+            try
             {
-                await _amazonS3.DeleteObjectAsync("imagens-teste-dodev", imagem.FileName);
-                return BadRequest("Imagem inválida");
+                await _application.CadastrarImagem(id, imagem);
+                return Ok("Imagem cadastrada");
             }
-            await _repositorio.AtualizarUrlFotoCadastro(id, imagem.FileName);
-            return Ok("Imagem cadastrada");
+            catch
+            {
+                var ex = new Exception("Imagem inválida");
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login(string email, string senha)
         {
-            var usuarios = await _repositorio.GetTodosAsync();
-            var usuarioAVerificar = usuarios.First(x => x.Email == email);
-            if (usuarioAVerificar.Senha == senha)
+            try
             {
-                return Ok(usuarioAVerificar.Id);
+                await _application.Login(email, senha);
+                return Ok("Login válido");
             }
-            else
+            catch
             {
-                return BadRequest("Email ou senha inválidos");
+                var ex = new Exception("Email ou senha inválidos");
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost("LoginImagem")]
         public async Task<IActionResult> LoginImagem(int id, IFormFile fotoLogin)
         {
-            var usuario = await _repositorio.GetPorId(id);
-            var comparacao = await CompararRosto(usuario.UrlImagemCadastro, fotoLogin);
-            if (comparacao.FaceMatches.Count == 1)
+            try
             {
-                return Ok("Foto de login Válida");
+                await _application.LoginImagem(id, fotoLogin);
+                return Ok("Login válido");
             }
-            else
+            catch
             {
-                return BadRequest("Foto de login inválida");
+                var ex = new Exception("Foto de login ou Id inválidos");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUsuarios()
+        {
+            try
+            {
+                var resposta = await _application.GetUsuarios();
+                return Ok(resposta);
+            }
+            catch
+            {
+                var ex = new Exception("Não foi possível carregar a lsita de usuários");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> AtualizarSenha(int id, string senha)
+        {
+            try
+            {
+                await _application.AtualizarSenha(id, senha);
+                return Ok();
+            }
+            catch
+            {
+                var ex = new Exception("Id ou senha inválidos");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeletarUsuario(int id)
+        {
+            try
+            {
+                await _application.DeletarUsuario(id);
+                return Ok();
+            }
+            catch
+            {
+                var ex = new Exception("Id inválido");
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete("DeletarImagem")]
         public async Task<IActionResult> DeletarImagem(string nomeArquivo)
         {
-            await _amazonS3.DeleteObjectAsync("imagens-teste-dodev", nomeArquivo);
-            return Ok("Imagem deletada");
-        }
-
-        private async Task<IActionResult> AddImagem(IFormFile imagem)
-        {
-            if (!_extensoesImagem.Contains(imagem.ContentType))
-                return BadRequest("Tipo Invalido");
-            using (var streamDaImagem = new MemoryStream())
+            try
             {
-                await imagem.CopyToAsync(streamDaImagem);
-
-                var request = new PutObjectRequest();
-                request.Key = imagem.FileName;
-                request.BucketName = "imagens-teste-dodev";
-                request.InputStream = streamDaImagem;
-
-                var resposta = await _amazonS3.PutObjectAsync(request);
-                return Ok(resposta);
+                await _application.DeletarImagem(nomeArquivo);
+                return Ok();
             }
-        }
-
-        private async Task<DetectFacesResponse> AnalisarRosto(string nomeArquivo)
-        {
-            var entrada = new DetectFacesRequest();
-            var imagem = new Image();
-
-            var s3Object = new Amazon.Rekognition.Model.S3Object()
+            catch
             {
-                Bucket = "imagens-teste-dodev",
-                Name = nomeArquivo
-            };
-
-            imagem.S3Object = s3Object;
-            entrada.Image = imagem;
-            entrada.Attributes = new List<string>() { "ALL" };
-
-            var resposta = await _rekognitionClient.DetectFacesAsync(entrada);
-            return resposta;
-        }
-
-        private async Task<CompareFacesResponse> CompararRosto(string nomeArquivoS3, IFormFile fotoLogin)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                var request = new CompareFacesRequest();
-
-                var requestSource = new Image()
-                {
-                    S3Object = new Amazon.Rekognition.Model.S3Object()
-                    {
-                        Bucket = "imagens-teste-dodev",
-                        Name = nomeArquivoS3
-                    }
-                };
-
-                await fotoLogin.CopyToAsync(memoryStream);
-                var requestTarget = new Image()
-                {
-                    Bytes = memoryStream
-                };
-
-                request.SourceImage = requestSource;
-                request.TargetImage = requestTarget;
-
-                var response = await _rekognitionClient.CompareFacesAsync(request);
-                return response;
+                var ex = new Exception("Nome de arquivo inválido");
+                return BadRequest(ex.Message);
             }
-
         }
     }
 }
