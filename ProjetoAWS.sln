@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoAWS.test", "ProjetoA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoAWS.Application", "ProjetoAWS.Application\ProjetoAWS.Application.csproj", "{010E9093-D142-4ECC-A4AE-0C9FBD516920}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoAWS.Services", "ProjetoAWS.Services\ProjetoAWS.Services.csproj", "{6810D53F-73B2-4C60-AD09-58F18D27F853}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoAWS.Config", "ProjetoAWS.Config\ProjetoAWS.Config.csproj", "{73A351FE-6C02-42DB-9A8A-C932ECD201D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{010E9093-D142-4ECC-A4AE-0C9FBD516920}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{010E9093-D142-4ECC-A4AE-0C9FBD516920}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{010E9093-D142-4ECC-A4AE-0C9FBD516920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6810D53F-73B2-4C60-AD09-58F18D27F853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6810D53F-73B2-4C60-AD09-58F18D27F853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6810D53F-73B2-4C60-AD09-58F18D27F853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6810D53F-73B2-4C60-AD09-58F18D27F853}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73A351FE-6C02-42DB-9A8A-C932ECD201D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73A351FE-6C02-42DB-9A8A-C932ECD201D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73A351FE-6C02-42DB-9A8A-C932ECD201D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73A351FE-6C02-42DB-9A8A-C932ECD201D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

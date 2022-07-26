@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
+    <PackageReference Include="awssdk.rekognition" Version="3.7.8.34" />
+    <PackageReference Include="awssdk.s3" Version="3.7.9.28" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ProjetoAWS.lib\ProjetoAWS.lib.csproj" />
-    <ProjectReference Include="..\ProjetoAWS.Services\ProjetoAWS.Services.csproj" />
   </ItemGroup>
 
 </Project>
