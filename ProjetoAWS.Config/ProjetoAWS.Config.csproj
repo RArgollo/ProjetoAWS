@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjetoAWS.Application\ProjetoAWS.Application.csproj" />
+    <ProjectReference Include="..\ProjetoAWS.lib\ProjetoAWS.lib.csproj" />
+    <ProjectReference Include="..\ProjetoAWS.Services\ProjetoAWS.Services.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
