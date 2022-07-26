@@ -2,6 +2,7 @@ using Amazon.Rekognition;
 using Amazon.Runtime;
 using Amazon.S3;
 using Microsoft.EntityFrameworkCore;
+using ProjetoAWS.Application.Services;
 using ProjetoAWS.lib.Data;
 using ProjetoAWS.lib.Data.Interfaces;
 using ProjetoAWS.lib.Data.Repositorios;
@@ -19,6 +20,7 @@ builder.Services.AddAWSService<IAmazonS3>();
 builder.Services.AddScoped<AmazonRekognitionClient>();
 
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<IUsuarioApplication, UsuarioApplication>();
 
 builder.Services.AddDbContext<AWSContext>(conn =>
 conn.UseNpgsql(builder.Configuration.GetConnectionString("AWSDB"))
