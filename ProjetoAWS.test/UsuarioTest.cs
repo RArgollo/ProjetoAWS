@@ -9,15 +9,9 @@ namespace ProjetoAWS.test
 
         private Usuario CriaUsuarioPadrao()
         {
-            return new Usuario(1, "rafael@email", "12345678978", "19/11/2001", "rafael", "rafa1902", "07/07/2022");
+            return new Usuario("rafael@email", "12345678978", "19/11/2001", "rafael", "rafa1902", "07/07/2022");
         }
-        [Fact]
-        public void TesteSetId()
-        {
-            var usuario = CriaUsuarioPadrao();
-            var idEsperado = 1;
-            Assert.Equal(idEsperado, usuario.Id);
-        }
+        
         [Fact]
         public void TesteSetEmail()
         {

@@ -22,7 +22,7 @@ namespace ProjetoAWS.web.Controllers
         }
 
         [HttpPost("CadastrarImagem")]
-        public async Task<IActionResult> CadastrarImagem(int id, IFormFile imagem)
+        public async Task<IActionResult> CadastrarImagem(Guid id, IFormFile imagem)
         {
             await _application.CadastrarImagem(id, imagem);
             return Ok("Imagem cadastrada");
@@ -36,7 +36,7 @@ namespace ProjetoAWS.web.Controllers
         }
 
         [HttpPost("LoginImagem")]
-        public async Task<IActionResult> LoginImagem(int id, IFormFile fotoLogin)
+        public async Task<IActionResult> LoginImagem(Guid id, IFormFile fotoLogin)
         {
                 await _application.LoginImagem(id, fotoLogin);
                 return Ok("Login válido");
@@ -50,14 +50,14 @@ namespace ProjetoAWS.web.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> AtualizarSenha(int id, string senha)
+        public async Task<IActionResult> AtualizarSenha(Guid id, string senha)
         {
                 await _application.AtualizarSenha(id, senha);
                 return Ok();
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeletarUsuario(int id)
+        public async Task<IActionResult> DeletarUsuario(Guid id)
         {
                 await _application.DeletarUsuario(id);
                 return Ok();

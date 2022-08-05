@@ -19,7 +19,7 @@ namespace ProjetoAWS.lib.Data.Repositorios
             return resposta;
         }
 
-        public async Task<T> GetPorId(int id)
+        public async Task<T> GetPorId(Guid id)
         {
             var resposta = await _dbset.FindAsync(id);
             return resposta;
@@ -31,7 +31,7 @@ namespace ProjetoAWS.lib.Data.Repositorios
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeletarAsync(int id)
+        public async Task DeletarAsync(Guid id)
         {
             var item = await _dbset.FindAsync(id);
             _dbset.Remove(item);

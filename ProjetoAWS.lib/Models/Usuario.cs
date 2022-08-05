@@ -1,8 +1,7 @@
 namespace ProjetoAWS.lib.Models
 {
-    public class Usuario
+    public class Usuario : ModelBase
     {
-        public int Id { get; private set; }
         public string Email { get; private set; }
         public string Cpf { get; private set; }
         public DateTime DataNascimento { get; private set; }
@@ -11,9 +10,8 @@ namespace ProjetoAWS.lib.Models
         public string? UrlImagemCadastro { get; private set; }
         public DateTime DataCriacao { get; private set; }
 
-        public Usuario(int id, string email, string cpf, string dataNascimento, string nome, string senha, string dataCriacao)
+        public Usuario(string email, string cpf, string dataNascimento, string nome, string senha, string dataCriacao) : base(Guid.NewGuid())
         {
-            SetId(id);
             SetEmail(email);
             SetCpf(cpf);
             SetDataNascimento(dataNascimento);
@@ -21,14 +19,10 @@ namespace ProjetoAWS.lib.Models
             SetSenha(senha);
             SetDataCriacao(dataCriacao);
         }
-        public Usuario()
-        {
 
-        }
-
-        public void SetId(int id)
+        private Usuario() : base(Guid.NewGuid())
         {
-            Id = id;
+            
         }
 
         public void SetEmail(string email)

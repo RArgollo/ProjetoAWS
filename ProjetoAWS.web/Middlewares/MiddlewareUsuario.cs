@@ -17,6 +17,7 @@ namespace ProjetoAWS.web.Middlewares
             catch (System.Exception ex)
             {
                 context.Response.StatusCode = 400;
+                await context.Response.WriteAsJsonAsync(new {msg = ex.Message});
             }
 
 

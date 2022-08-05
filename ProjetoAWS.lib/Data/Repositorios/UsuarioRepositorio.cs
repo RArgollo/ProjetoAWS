@@ -12,14 +12,14 @@ namespace ProjetoAWS.lib.Data.Repositorios
         {
             _context = context;
         }
-        public async Task AtualizarSenha(int id, string senha)
+        public async Task AtualizarSenha(Guid id, string senha)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
             usuario.SetSenha(senha);
             await _context.SaveChangesAsync();
         }
 
-        public async Task AtualizarUrlFotoCadastro(int id, string urlImagemCadastro)
+        public async Task AtualizarUrlFotoCadastro(Guid id, string urlImagemCadastro)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
             usuario.SetUrlImagemCadastro(urlImagemCadastro);

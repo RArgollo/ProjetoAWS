@@ -20,7 +20,7 @@ namespace ProjetoAWS.Services
             _repositorio = repositorio;
         }
 
-        public async Task CadastrarImagem(int id, IFormFile imagem)
+        public async Task CadastrarImagem(Guid id, IFormFile imagem)
         {
             await AddImagem(imagem);
             var resposta = await AnalisarRosto(imagem.FileName);
@@ -32,7 +32,7 @@ namespace ProjetoAWS.Services
             await _repositorio.AtualizarUrlFotoCadastro(id, imagem.FileName);
         }
 
-        public async Task LoginImagem(int id, IFormFile foto)
+        public async Task LoginImagem(Guid id, IFormFile foto)
         {
             var usuario = await _repositorio.GetPorId(id);
             var comparacao = await CompararRosto(usuario.UrlImagemCadastro, foto);

@@ -3,8 +3,8 @@ namespace ProjetoAWS.Services
 {
     public interface IUsuarioServices
     {
-         Task CadastrarImagem(int id, IFormFile imagem);
-         Task LoginImagem(int id, IFormFile foto);
+         Task CadastrarImagem(Guid id, IFormFile imagem);
+         Task LoginImagem(Guid id, IFormFile foto);
          Task DeletarImagem(string nomeArquivo);
         
     }

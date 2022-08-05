@@ -16,12 +16,13 @@ namespace ProjetoAWS.Application.Services
             _services = services;
         }
 
-        public async Task CadastrarUsuario(UsuarioDTO usuarioDTO)
+        public async Task<Guid> CadastrarUsuario(UsuarioDTO usuarioDTO)
         {
-            var usuario = new Usuario(usuarioDTO.Id, usuarioDTO.Email, usuarioDTO.Cpf, usuarioDTO.DataNascimento, usuarioDTO.Nome, usuarioDTO.Senha, usuarioDTO.DataCriacao);
+            var usuario = new Usuario(usuarioDTO.Email, usuarioDTO.Cpf, usuarioDTO.DataNascimento, usuarioDTO.Nome, usuarioDTO.Senha, usuarioDTO.DataCriacao);
             await _repositorio.AddAsync(usuario);
+            return usuario.Id;
         }
-        public async Task<int> Login(string email, string senha)
+        public async Task<Guid> Login(string email, string senha)
         {
             var usuarios = await _repositorio.GetTodosAsync();
             var usuarioAVerificar = usuarios.First(x => x.Email == email);
@@ -41,22 +42,22 @@ namespace ProjetoAWS.Application.Services
             return resposta;
         }
 
-        public async Task AtualizarSenha(int id, string senha)
+        public async Task AtualizarSenha(Guid id, string senha)
         {
             await _repositorio.AtualizarSenha(id, senha);
         }
 
-        public async Task DeletarUsuario(int id)
+        public async Task DeletarUsuario(Guid id)
         {
             await _repositorio.DeletarAsync(id);
         }
 
-        public async Task CadastrarImagem(int id, IFormFile imagem)
+        public async Task CadastrarImagem(Guid id, IFormFile imagem)
         {
             await _services.CadastrarImagem(id, imagem);
         }
 
-        public async Task LoginImagem(int id, IFormFile foto)
+        public async Task LoginImagem(Guid id, IFormFile foto)
         {
             await _services.LoginImagem(id, foto);
         }
