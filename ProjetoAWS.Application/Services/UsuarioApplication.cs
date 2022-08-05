@@ -26,7 +26,7 @@ namespace ProjetoAWS.Application.Services
         {
             var usuarios = await _repositorio.GetTodosAsync();
             var usuarioAVerificar = usuarios.First(x => x.Email == email);
-            if (usuarioAVerificar.Senha == senha)
+            if (usuarioAVerificar.VerificarSenhaHash(senha, usuarioAVerificar.Salt, usuarioAVerificar.Senha))
             {
                 return usuarioAVerificar.Id;
             }

@@ -40,13 +40,14 @@ namespace ProjetoAWS.test
             var nomeEsperado = "rafael";
             Assert.Equal(nomeEsperado, usuario.Nome);
         }
-        [Fact]
+        /*[Fact]
         public void TesteSetSenha()
         {
             var usuario = CriaUsuarioPadrao();
             var senhaEsperada = "rafa1902";
             Assert.Equal(senhaEsperada, usuario.Senha);
         }
+        */
         [Fact]
         public void TesteSetDataCriacao()
         {
