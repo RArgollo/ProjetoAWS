@@ -114,3 +114,5 @@ C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.test\bin\Debug\net6.0\Microso
 C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.test\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
 C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.test\bin\Debug\net6.0\Npgsql.dll
 C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.test\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.test\bin\Debug\net6.0\Konscious.Security.Cryptography.Argon2.dll
+C:\Users\rafae\projetosDODEV\ProjetoAWS\ProjetoAWS.test\bin\Debug\net6.0\Konscious.Security.Cryptography.Blake2.dll

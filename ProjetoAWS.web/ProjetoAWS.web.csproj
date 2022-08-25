@@ -7,18 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
-    <PackageReference Include="awssdk.rekognition" Version="3.7.8.34" />
-    <PackageReference Include="awssdk.s3" Version="3.7.9.28" />
-    <PackageReference Include="EFCore.NamingConventions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProjetoAWS.lib\ProjetoAWS.lib.csproj" />
     <ProjectReference Include="..\ProjetoAWS.Application\ProjetoAWS.Application.csproj" />
+    <ProjectReference Include="..\ProjetoAWS.Config\ProjetoAWS.Config.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,19 +1,22 @@
+using System.Security.Cryptography;
+using System.Text;
+using Konscious.Security.Cryptography;
+
 namespace ProjetoAWS.lib.Models
 {
-    public class Usuario
+    public class Usuario : ModelBase
     {
-        public int Id { get; private set; }
         public string Email { get; private set; }
         public string Cpf { get; private set; }
         public DateTime DataNascimento { get; private set; }
         public string Nome { get; private set; }
-        public string Senha { get; private set; }
+        public byte[] Senha { get; private set; }
+        public byte[] Salt { get; private set; }
         public string? UrlImagemCadastro { get; private set; }
         public DateTime DataCriacao { get; private set; }
 
-        public Usuario(int id, string email, string cpf, string dataNascimento, string nome, string senha, string dataCriacao)
+        public Usuario(string email, string cpf, string dataNascimento, string nome, string senha, string dataCriacao) : base(Guid.NewGuid())
         {
-            SetId(id);
             SetEmail(email);
             SetCpf(cpf);
             SetDataNascimento(dataNascimento);
@@ -21,14 +24,10 @@ namespace ProjetoAWS.lib.Models
             SetSenha(senha);
             SetDataCriacao(dataCriacao);
         }
-        public Usuario()
-        {
 
-        }
-
-        public void SetId(int id)
+        private Usuario() : base(Guid.NewGuid())
         {
-            Id = id;
+            
         }
 
         public void SetEmail(string email)
@@ -76,7 +75,9 @@ namespace ProjetoAWS.lib.Models
         {
             if (senha.Length >= 8)
             {
-                Senha = senha;
+                Salt = CreateSalt();
+                var senhaHash = SenhaHash(senha, Salt);
+                Senha = senhaHash;
             }
             else
             {
@@ -93,5 +94,32 @@ namespace ProjetoAWS.lib.Models
         {
             UrlImagemCadastro = urlImagemCadastro;
         }
+
+        private byte[] CreateSalt()
+        {
+            var buffer = new byte[16];
+            var rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(buffer);
+            return buffer;
+        }
+
+        private byte[] SenhaHash(string senha, byte[] salt)
+        {
+            var argon2 = new Argon2id(Encoding.UTF8.GetBytes(senha));
+
+            argon2.Salt = salt;
+            argon2.DegreeOfParallelism = 8;
+            argon2.Iterations = 4;
+            argon2.MemorySize = 1024*1024;
+
+            return argon2.GetBytes(16);
+        }
+
+        public bool VerificarSenhaHash(string senha, byte[] salt, byte[] hash)
+        {
+            var novaSenhaHash = SenhaHash(senha, salt);
+            return hash.SequenceEqual(novaSenhaHash);
+        }
+
     }
 }
